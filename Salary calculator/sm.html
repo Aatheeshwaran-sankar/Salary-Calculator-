@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salary Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f2ff;
+            color: #003366;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        .dark-mode {
+            background-color: #1e1e2f;
+            color: #e0e0ff;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 51, 102, 0.2);
+            width: 400px;
+            animation: slideIn 1s ease-out;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        .dark-mode .container {
+            background-color: #2e2e3f;
+            color: #e0e0ff;
+        }
+
+        h2 {
+            text-align: center;
+            color: #004080;
+        }
+
+        .dark-mode h2 {
+            color: #8ab4f8;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #0073e6;
+        }
+
+        .dark-mode select, .dark-mode input[type="number"] {
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #8ab4f8;
+        }
+
+        button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0059b3;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .toggle-mode {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #0073e6;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<button class="toggle-mode" onclick="toggleMode()">Dark Mode</button>
+<div class="container">
+    <h2>Salary Calculator</h2>
+    <form id="salaryForm">
+        <label for="role">Role:</label>
+        <select id="role" required>
+            <option value="">Select Role</option>
+            <option value="Developer">Developer</option>
+            <option value="Designer">Designer</option>
+            <option value="Manager">Manager</option>
+        </select>
+
+        <label for="experience">Experience (years):</label>
+        <input type="number" id="experience" min="0" required>
+
+        <label for="education">Graduation:</label>
+        <select id="education" required>
+            <option value="">Select Degree</option>
+            <option value="Bachelors">Bachelors</option>
+            <option value="Masters">Masters</option>
+            <option value="PhD">PhD</option>
+        </select>
+
+        <label for="city">City:</label>
+        <select id="city" required>
+            <option value="">Select City</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Delhi">Delhi</option>
+        </select>
+
+        <button type="submit">Calculate Salary</button>
+    </form>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    document.getElementById("salaryForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const role = document.getElementById("role").value;
+        const experience = parseInt(document.getElementById("experience").value) || 0;
+        const education = document.getElementById("education").value;
+        const city = document.getElementById("city").value;
+
+        let baseSalary = 0;
+
+        switch (role) {
+            case "Developer": baseSalary = 500000; break;
+            case "Designer": baseSalary = 450000; break;
+            case "Manager": baseSalary = 700000; break;
+        }
+
+        if (education === "Masters") baseSalary += 100000;
+        else if (education === "PhD") baseSalary += 200000;
+
+        if (city === "Bangalore") baseSalary += 150000;
+        else if (city === "Delhi") baseSalary += 100000;
+
+        baseSalary += experience * 20000;
+
+        document.getElementById("result").innerText = `Estimated Annual Salary: ₹${baseSalary.toLocaleString()}`;
+    });
+
+    function toggleMode() {
+        document.body.classList.toggle("dark-mode");
+    }
+</script>
+</body>
+</html>
